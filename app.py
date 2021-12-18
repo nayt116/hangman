@@ -1,4 +1,5 @@
 import config
+import random
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher.filters import Text
 from pyowm import OWM
@@ -18,7 +19,7 @@ async def start(message: types.Message):
 
 @dp.message_handler(Text(equals = 'get weather'))
 async def get_weather(message: types.Message):
-	place = 'London,GB'
+	place = 'London'
 
 	owm = OWM('9a7464ab1d4d8e55ec5d154990e18b64')
 	mgr = owm.weather_manager()
@@ -27,6 +28,12 @@ async def get_weather(message: types.Message):
 	temp = w.temperature('celsius')['temp']
 
 	await message.answer('В городе: ' + place + 'сейчас' + str(temp) + ' градусов!')
+
+
+@dp.message_handler(Text(equals='random'))
+async def get_random_number(message: types.Message):
+	rn = str(random.randint(1, 100000))
+	await message.answer(rn)
 
 
 if __name__=='__main__':
